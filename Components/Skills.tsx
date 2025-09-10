@@ -10,6 +10,7 @@ const Skills = () => {
 
         </h1>
         <div className="w-[80%] mx-auto pt-[4rem] md:pt-[8rem] grid grid-cols-1 md:grid-cols-2 gap-[2rem] items-center">
+            {/*div property on left side */}
             <div>
                 <SkillsItem title="San Francisco State University" year="2022 - 2024" />
 
@@ -17,21 +18,28 @@ const Skills = () => {
                 <SkillsLanguage 
                 skill1="html" 
                 skill2="css" 
-                skill3="javascript" 
-                level="90%" 
+                skill3="javaScript"
+                skill4="TypeScript"
+                level1="90%" 
                 level2="70%" 
-                level3="80%"/>
+                level3="80%"
+                level4="80%"/>
+
             </div>
+            {/*div property on the right side */}
             <div>
-                <SkillsItem title="coming soon"  />
-                <SkillsItem title="coming soon" />
+                <SkillsItem title="Geopogo" year="2023 - 2025" />
+                <SkillsItem title="coming soon" year="coming soon" />
+
                 <SkillsLanguage
-                skill1="coming soon" 
-                skill2="coming soon" 
-                skill3="coming soon" 
-                level="coming soon" 
-                level2="coming soon" 
-                level3="coming soon" />
+                skill1="Python" 
+                skill2="Agentic AI" 
+                skill3="LLM" 
+                skill4="RAG (Retrieval-Augmented Generation)"
+                level1="70%" 
+                level2="90%" 
+                level3="80%" 
+                level4="70%"/>
             </div>
             <div>
             
@@ -39,7 +47,7 @@ const Skills = () => {
         </div>
     </div>
      
-  )
-}
+  );
+};
 
 export default Skills

@@ -9,9 +9,7 @@ const TextEffect = () => {
         1500, // wait 1s before replacing "Mice" with "Hamsters"
         'Web developer',
         1500,
-        'iOS mobile APP developer',
-        1500,
-        'Audio Developer',
+        'Full Stack AI Engineer',
         1500,
       ]}
       speed={50}

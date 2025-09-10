@@ -15,10 +15,9 @@ const Services = () => {
                             Frontend
                         </h1>
                         <p className="text-[15px] text-[#d3d2d2] font-normal">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Consequatur voluptas perspiciatis iusto, 
-                            expedita assumenda illum nulla illo ipsum facere enim, 
-                            voluptates ab distinctio, quia vero labore autem quae culpa necessitatibus?
+                            LSkilled in building modern, responsive UIs using React, TypeScript, and Tailwind CSS. 
+                            Developed dynamic interfaces with real-time updates, 
+                            integrated markdown rendering, and optimized component reusability for seamless user experiences across devices.
                         </p>
                     </div>
                 </div>
@@ -29,10 +28,10 @@ const Services = () => {
                             Backend
                         </h1>
                         <p className="text-[15px] text-[#d3d2d2] font-normal">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Consequatur voluptas perspiciatis iusto, 
-                            expedita assumenda illum nulla illo ipsum facere enim, 
-                            voluptates ab distinctio, quia vero labore autem quae culpa necessitatibus?
+                            Experienced in creating secure, 
+                            scalable server-side systems with Node.js and Express. 
+                            Built RESTful and streaming APIs, implemented JWT-based authentication, 
+                            and connected PostgreSQL and MongoDB for structured and unstructured data handling.
                         </p>
                     </div>
                 </div>
@@ -43,16 +42,16 @@ const Services = () => {
                             Fullstack
                         </h1>
                         <p className="text-[15px] text-[#d3d2d2] font-normal">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                            Consequatur voluptas perspiciatis iusto, 
-                            expedita assumenda illum nulla illo ipsum facere enim, 
-                            voluptates ab distinctio, quia vero labore autem quae culpa necessitatibus?
+                            Proficient in designing and deploying end-to-end web applications. 
+                            Integrated OpenAI APIs, managed real-time chatbot flows, 
+                            and handled subscriptions, authentication, 
+                            and database architecture to deliver complete AI-powered user experiences.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Services;
