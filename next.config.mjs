@@ -1,19 +1,19 @@
-// /** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 // const nextConfig = {
 //   reactStrictMode: true,
 // };
 
 // export default nextConfig;
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const repo = 'my-portfolio';
+export default {
   reactStrictMode: true,
   output: 'export',
   images: { unoptimized: true },
   trailingSlash: true,
-};
-
-export default nextConfig;
+  basePath: `/${repo}`,
+  assetPrefix: `/${repo}/`,
+}
 
 
 
