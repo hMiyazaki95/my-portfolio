@@ -1,6 +1,15 @@
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   reactStrictMode: true,
+// };
+
+// export default nextConfig;
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+export default {
   reactStrictMode: true,
+  output: 'export',
+  images: { unoptimized: true },
+  trailingSlash: true,
 };
 
-export default nextConfig;
