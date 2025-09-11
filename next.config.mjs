@@ -15,5 +15,4 @@ export default {
   assetPrefix: `/${repo}/`,
 }
 
-
-
+export default nextConfig;
