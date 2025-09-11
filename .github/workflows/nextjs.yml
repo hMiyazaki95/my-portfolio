@@ -121,21 +121,14 @@ jobs:
           node-version: 20
           cache: npm
 
-      # Optional but nice: cache Next build cache
-      - uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-
-      # Install + build; with output:'export' this creates ./out
       - run: npm ci
+      # Next 14: output:'export' in next.config produces ./out
       - run: npm run build
 
-      # Upload exactly one artifact: ./out
+      # ⬇️ Upload EXACTLY ONE artifact with a UNIQUE name
       - uses: actions/upload-pages-artifact@v3
         with:
+          name: site              # <— custom name to avoid collisions
           path: ./out
 
   deploy:
@@ -147,4 +140,5 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-
+        with:
+          artifact_name: site     # <— must match the name above
