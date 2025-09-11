@@ -22,16 +22,29 @@
 
 
 // next.config.mjs (ESM)
+// const repo = 'my-portfolio';
+
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   reactStrictMode: true,
+//   output: 'export',
+//   images: { unoptimized: true },
+//   trailingSlash: true,
+//   basePath: `/${repo}`,
+//   assetPrefix: `/${repo}/`,
+// };
+
+// export default nextConfig;
+
+
 const repo = 'my-portfolio';
+const isGhPages = process.env.DEPLOY_TARGET === 'gh-pages';
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+export default {
   reactStrictMode: true,
   output: 'export',
   images: { unoptimized: true },
   trailingSlash: true,
-  basePath: `/${repo}`,
-  assetPrefix: `/${repo}/`,
+  ...(isGhPages ? { basePath: `/${repo}`, assetPrefix: `/${repo}/` } : {}),
 };
-
-export default nextConfig;

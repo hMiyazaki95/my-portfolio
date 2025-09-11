@@ -73,8 +73,10 @@
 #             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
 #       - name: Install dependencies
 #         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+#       # - name: Build with Next.js
+#       #   run: ${{ steps.detect-package-manager.outputs.runner }} next build
 #       - name: Build with Next.js
-#         run: ${{ steps.detect-package-manager.outputs.runner }} next build
+#         run: DEPLOY_TARGET=gh-pages ${{ steps.detect-package-manager.outputs.runner }} next build
 #       - name: Upload artifact
 #         uses: actions/upload-pages-artifact@v3
 #         with:
@@ -93,7 +95,6 @@
 #         uses: actions/deploy-pages@v4
 
 
-
 name: Deploy Next.js site to Pages
 
 on:
@@ -108,37 +109,74 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=yarn" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/package.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: "20"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
 
-      - run: npm ci
-      # Next 14: output:'export' in next.config produces ./out
-      - run: npm run build
+      # (Optional) You can remove this if you fully manage next.config yourself
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-      # ⬇️ Upload EXACTLY ONE artifact with a UNIQUE name
-      - uses: actions/upload-pages-artifact@v3
+      - name: Restore cache
+        uses: actions/cache@v4
         with:
-          name: site              # <— custom name to avoid collisions
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
+
+      - name: Install dependencies
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+
+      # ⬇️ This is the important change: add DEPLOY_TARGET so basePath kicks in for GH Pages
+      - name: Build with Next.js
+        run: DEPLOY_TARGET=gh-pages ${{ steps.detect-package-manager.outputs.runner }} next build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: site              # give it a unique name to avoid collisions
           path: ./out
 
   deploy:
-    needs: build
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: site     # <— must match the name above
+          artifact_name: site     # must match the upload name
+
